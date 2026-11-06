@@ -1,0 +1,393 @@
+table ola_rides
+	lineageTag: 79726503-f0b3-55f4-a3a1-2247bbcf3cc9
+
+	measure 'Total Bookings' = COUNTROWS ( ola_rides )
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: fa08838d-22df-5c45-8e90-06a3981c37ba
+
+	measure 'Successful Rides' = CALCULATE ( COUNTROWS ( ola_rides ), ola_rides[Booking_Status] = "Success" )
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 3d8cf1c4-de52-5fab-aabf-d444e71b6c97
+
+	measure 'Success Rate %' = DIVIDE ( [Successful Rides], [Total Bookings] )
+		formatString: 0.0%
+		displayFolder: 1 Volume
+		lineageTag: cfca85f0-ba6c-5dd3-93d9-7d9a85082c75
+
+	measure 'Incomplete Rides' = CALCULATE ( COUNTROWS ( ola_rides ), ola_rides[Incomplete_Rides] = "Yes" )
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 4b21b3bf-99d7-590f-a67a-26d41982eea7
+
+	measure 'Unique Customers' = DISTINCTCOUNT ( ola_rides[Customer_ID] )
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 0cc4344a-4317-5bbf-8b7c-31eb74e5d95e
+
+	measure 'Canceled by Customer' = CALCULATE ( COUNTROWS ( ola_rides ), ola_rides[Booking_Status] = "Canceled by Customer" )
+		formatString: #,0
+		displayFolder: 2 Cancellation
+		lineageTag: 5325cde7-9c43-5734-8e0c-3abc8fbb6162
+
+	measure 'Canceled by Driver' = CALCULATE ( COUNTROWS ( ola_rides ), ola_rides[Booking_Status] = "Canceled by Driver" )
+		formatString: #,0
+		displayFolder: 2 Cancellation
+		lineageTag: d803e146-a356-5750-bedd-3fa49dfd45af
+
+	measure 'Driver Not Found' = CALCULATE ( COUNTROWS ( ola_rides ), ola_rides[Booking_Status] = "Driver Not Found" )
+		formatString: #,0
+		displayFolder: 2 Cancellation
+		lineageTag: b72351bf-1551-5480-b980-d84dcbd1c391
+
+	measure 'Total Cancellations' = [Canceled by Customer] + [Canceled by Driver]
+		formatString: #,0
+		displayFolder: 2 Cancellation
+		lineageTag: 6dd6d590-3860-5a52-b87f-740c83abe163
+
+	measure 'Cancellation Rate %' = DIVIDE ( [Total Cancellations], [Total Bookings] )
+		formatString: 0.0%
+		displayFolder: 2 Cancellation
+		lineageTag: bc1f1205-52bf-5661-ad41-b29bd1cd7adb
+
+	measure 'Total Booking Value' = SUM ( ola_rides[Booking_Value] )
+		formatString: ₹#,0
+		displayFolder: 3 Revenue
+		lineageTag: 4fc71004-978b-5270-8104-f2285473e58d
+
+	measure 'Total Revenue' = CALCULATE ( SUM ( ola_rides[Booking_Value] ), ola_rides[Booking_Status] = "Success" )
+		formatString: ₹#,0
+		displayFolder: 3 Revenue
+		lineageTag: 93eac503-9b08-5488-8f0f-a7aae561ed2b
+
+	measure 'Avg Booking Value' = CALCULATE ( AVERAGE ( ola_rides[Booking_Value] ), ola_rides[Booking_Status] = "Success" )
+		formatString: ₹#,0
+		displayFolder: 3 Revenue
+		lineageTag: f41368ff-7296-5f4f-aa50-52442d9bdb60
+
+	measure 'Lost Booking Value' = [Total Booking Value] - [Total Revenue]
+		formatString: ₹#,0
+		displayFolder: 3 Revenue
+		lineageTag: db41d8fc-7089-5078-bc8a-27f74b8634b9
+
+	measure 'Digital Payment Share %' = DIVIDE ( CALCULATE ( [Successful Rides], ola_rides[Payment_Method] IN { "UPI", "Credit Card", "Debit Card" } ), [Successful Rides] )
+		formatString: 0.0%
+		displayFolder: 3 Revenue
+		lineageTag: d23f183d-708a-50c7-a531-10c734d21e5d
+
+	measure 'Total Distance' = CALCULATE ( SUM ( ola_rides[Ride_Distance] ), ola_rides[Booking_Status] = "Success" )
+		formatString: #,0
+		displayFolder: 4 Distance
+		lineageTag: d47dd1f0-f605-5fbf-9f88-15b3c80d4df8
+
+	measure 'Avg Ride Distance' = CALCULATE ( AVERAGE ( ola_rides[Ride_Distance] ), ola_rides[Booking_Status] = "Success" )
+		formatString: #,0.0
+		displayFolder: 4 Distance
+		lineageTag: 54c729b8-afd5-5dc9-9d0e-777545814c17
+
+	measure 'Avg Driver Rating' = AVERAGE ( ola_rides[Driver_Ratings] )
+		formatString: 0.00
+		displayFolder: 5 Ratings
+		lineageTag: d9585768-00bf-5fd7-8b05-7ad183517900
+
+	measure 'Avg Customer Rating' = AVERAGE ( ola_rides[Customer_Rating] )
+		formatString: 0.00
+		displayFolder: 5 Ratings
+		lineageTag: bd0a2140-ee21-51df-ae77-41b77fa7c6a7
+
+	measure 'Avg V_TAT' = AVERAGE ( ola_rides[V_TAT] )
+		formatString: 0.0
+		displayFolder: 5 Ratings
+		lineageTag: ea9b6968-e3e9-545f-a940-eb5156f02298
+
+	measure 'Avg C_TAT' = AVERAGE ( ola_rides[C_TAT] )
+		formatString: 0.0
+		displayFolder: 5 Ratings
+		lineageTag: 3ede58d7-3d80-5459-8b76-264123263a77
+
+	column Booking_ID
+		dataType: string
+		lineageTag: f0632b48-6c50-5a22-8a60-df0111d512e2
+		summarizeBy: none
+		sourceColumn: Booking_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Booking_Datetime
+		dataType: dateTime
+		formatString: dd-mm-yyyy hh:nn
+		lineageTag: e26ce4d6-9207-5378-a614-620f46ffe3d9
+		summarizeBy: none
+		sourceColumn: Booking_Datetime
+
+		annotation SummarizationSetBy = Automatic
+
+	column Booking_Date
+		dataType: dateTime
+		formatString: dd-mmm-yy
+		lineageTag: f88d15f6-04e3-5139-a506-b78945e0e410
+		summarizeBy: none
+		sourceColumn: Booking_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Booking_Time
+		dataType: string
+		lineageTag: 1d9df0f1-e82e-56ad-b1cc-b91249bb7cbd
+		summarizeBy: none
+		sourceColumn: Booking_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 76678af8-4e89-5ef9-82a4-011854eb1327
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day_Name
+		dataType: string
+		lineageTag: c6d52f85-8920-58ed-a1c7-aa79e17f4f09
+		summarizeBy: none
+		sourceColumn: Day_Name
+		sortByColumn: Weekday_Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday_Num
+		dataType: int64
+		formatString: 0
+		lineageTag: e2edd2ab-8e22-5136-b89f-273bf12f5e1d
+		summarizeBy: none
+		sourceColumn: Weekday_Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Weekend
+		dataType: string
+		lineageTag: fcb86924-06a8-5850-8eb2-28d28e9153f9
+		summarizeBy: none
+		sourceColumn: Is_Weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: c82a8070-a43e-59f3-beb0-1d446f12b88e
+		summarizeBy: none
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Time_Slot
+		dataType: string
+		lineageTag: c4e0f9e3-6618-544e-8d2f-9f176c655fa0
+		summarizeBy: none
+		sourceColumn: Time_Slot
+
+		annotation SummarizationSetBy = Automatic
+
+	column Booking_Status
+		dataType: string
+		lineageTag: d4800d63-6970-586c-9624-d03a070e3a63
+		summarizeBy: none
+		sourceColumn: Booking_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ride_Outcome
+		dataType: string
+		lineageTag: 57209ac1-6d5a-5812-8df2-1230bb551ab6
+		summarizeBy: none
+		sourceColumn: Ride_Outcome
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Success
+		dataType: int64
+		formatString: 0
+		lineageTag: 724f95b1-0f46-5545-a131-6f412dae0913
+		summarizeBy: sum
+		sourceColumn: Is_Success
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Canceled
+		dataType: int64
+		formatString: 0
+		lineageTag: 89d64708-e5be-52a4-9dab-bf174192b133
+		summarizeBy: sum
+		sourceColumn: Is_Canceled
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_ID
+		dataType: string
+		lineageTag: c520747c-f828-5bdd-a802-917950187f18
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vehicle_Type
+		dataType: string
+		lineageTag: 5a96b09f-88a0-54d0-876b-bd6c5d76e095
+		summarizeBy: none
+		sourceColumn: Vehicle_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pickup_Location
+		dataType: string
+		lineageTag: ff687acc-16da-5ac6-a3d5-d9cb793994c0
+		summarizeBy: none
+		sourceColumn: Pickup_Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Drop_Location
+		dataType: string
+		lineageTag: 2aba16f9-b1b6-5cf1-b938-131d78cf9f16
+		summarizeBy: none
+		sourceColumn: Drop_Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column V_TAT
+		dataType: double
+		formatString: 0.0
+		lineageTag: 22d8c517-1efe-586d-86c3-bc0754ce220e
+		summarizeBy: average
+		sourceColumn: V_TAT
+
+		annotation SummarizationSetBy = Automatic
+
+	column C_TAT
+		dataType: double
+		formatString: 0.0
+		lineageTag: 7b65cf25-7c19-506d-b375-e171f5bf2464
+		summarizeBy: average
+		sourceColumn: C_TAT
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canceled_Rides_by_Customer
+		dataType: string
+		lineageTag: cec9be47-7e49-5ede-a4b0-af2195db6a9b
+		summarizeBy: none
+		sourceColumn: Canceled_Rides_by_Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canceled_Rides_by_Driver
+		dataType: string
+		lineageTag: 412d5afe-af9f-562f-83c1-a566f2c12f1e
+		summarizeBy: none
+		sourceColumn: Canceled_Rides_by_Driver
+
+		annotation SummarizationSetBy = Automatic
+
+	column Incomplete_Rides
+		dataType: string
+		lineageTag: 83513426-1955-5697-9c29-b6ad274821dd
+		summarizeBy: none
+		sourceColumn: Incomplete_Rides
+
+		annotation SummarizationSetBy = Automatic
+
+	column Incomplete_Rides_Reason
+		dataType: string
+		lineageTag: 7bfa067b-ecb8-5ff4-adc2-98758d29f91e
+		summarizeBy: none
+		sourceColumn: Incomplete_Rides_Reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column Booking_Value
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5df3a43a-2ffc-5e1d-966d-a99832232604
+		summarizeBy: sum
+		sourceColumn: Booking_Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total Revenue
+		dataType: int64
+		formatString: #,0
+		lineageTag: a3ef2c34-6717-53fe-a116-2c35555b4cc1
+		summarizeBy: sum
+		sourceColumn: Total Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Payment_Method
+		dataType: string
+		lineageTag: 4ffb8c7b-6de4-5d57-aa14-2bd3a230cc44
+		summarizeBy: none
+		sourceColumn: Payment_Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ride_Distance
+		dataType: int64
+		formatString: #,0
+		lineageTag: c6052c24-147f-5961-bb3b-17854a04b0e3
+		summarizeBy: sum
+		sourceColumn: Ride_Distance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Distance_Band
+		dataType: string
+		lineageTag: 9380b4bb-36ed-5d2f-9900-e256d74e8319
+		summarizeBy: none
+		sourceColumn: Distance_Band
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fare_per_km
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 4000099c-b4bf-5e48-8e2a-cb0811a9b23e
+		summarizeBy: average
+		sourceColumn: Fare_per_km
+
+		annotation SummarizationSetBy = Automatic
+
+	column Driver_Ratings
+		dataType: double
+		formatString: 0.0
+		lineageTag: 9dc9997f-e079-52a0-9622-f154747c2e38
+		summarizeBy: none
+		sourceColumn: Driver_Ratings
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Rating
+		dataType: double
+		formatString: 0.0
+		lineageTag: 3e932272-78a6-5970-8e18-2c28407b45ba
+		summarizeBy: none
+		sourceColumn: Customer_Rating
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ola_rides = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ola_rides_clean.csv"), [Delimiter = ",", Columns = 32, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Booking_ID", type text}, {"Booking_Datetime", type datetime}, {"Booking_Date", type date}, {"Booking_Time", type text}, {"Day", Int64.Type}, {"Day_Name", type text}, {"Weekday_Num", Int64.Type}, {"Is_Weekend", type text}, {"Hour", Int64.Type}, {"Time_Slot", type text}, {"Booking_Status", type text}, {"Ride_Outcome", type text}, {"Is_Success", Int64.Type}, {"Is_Canceled", Int64.Type}, {"Customer_ID", type text}, {"Vehicle_Type", type text}, {"Pickup_Location", type text}, {"Drop_Location", type text}, {"V_TAT", type number}, {"C_TAT", type number}, {"Canceled_Rides_by_Customer", type text}, {"Canceled_Rides_by_Driver", type text}, {"Incomplete_Rides", type text}, {"Incomplete_Rides_Reason", type text}, {"Booking_Value", Int64.Type}, {"Total Revenue", Int64.Type}, {"Payment_Method", type text}, {"Ride_Distance", Int64.Type}, {"Distance_Band", type text}, {"Fare_per_km", type number}, {"Driver_Ratings", type number}, {"Customer_Rating", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

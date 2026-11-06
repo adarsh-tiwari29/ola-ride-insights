@@ -1,0 +1,3 @@
+relationship e9700c2b-27c5-5a60-8cfd-f0aea88d15cf
+	fromColumn: ola_rides.Vehicle_Type
+	toColumn: vehicle_types.Vehicle_Type

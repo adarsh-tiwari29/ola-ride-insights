@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "page_overall",
+    "page_vehicle",
+    "page_revenue",
+    "page_cancel",
+    "page_ratings"
+  ],
+  "activePageName": "page_overall"
+}

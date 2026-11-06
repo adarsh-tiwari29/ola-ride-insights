@@ -1,0 +1,41 @@
+table vehicle_types
+	lineageTag: cd2630bd-118f-5a63-8981-8c6b9673d18b
+
+	column Vehicle_Type
+		dataType: string
+		lineageTag: 5c0ca031-5b00-5c2e-a105-defb659d6057
+		summarizeBy: none
+		sourceColumn: Vehicle_Type
+		sortByColumn: Sort_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vehicle_Images
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: 7b1c0f23-9932-5ed1-9a94-32d7c49cefbc
+		summarizeBy: none
+		sourceColumn: Vehicle_Images
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort_Order
+		dataType: int64
+		formatString: 0
+		lineageTag: 33eed152-bf55-5578-a4a9-0ab2837039a0
+		summarizeBy: none
+		sourceColumn: Sort_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vehicle_types = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "vehicle_types.csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Vehicle_Type", type text}, {"Vehicle_Images", type text}, {"Sort_Order", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

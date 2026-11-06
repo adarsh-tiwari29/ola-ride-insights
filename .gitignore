@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Built at runtime from the cleaned CSV
+data/processed/ola.db
+
+# Streamlit secrets (keep the .example)
+.streamlit/secrets.toml
+
+# Power BI local files
+powerbi/**/.pbi/localSettings.json
+powerbi/**/.pbi/cache.abf
+*.pbix.bak
+
+# OS
+.DS_Store
+Thumbs.db

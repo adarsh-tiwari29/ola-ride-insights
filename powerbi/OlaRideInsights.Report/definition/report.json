@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.0.0/schema.json",
+  "themeCollection": {
+    "customTheme": {
+      "name": "OlaTheme.json",
+      "reportVersionAtImport": {
+        "visual": "2.4.0",
+        "page": "2.0.0",
+        "report": "3.0.0"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "OlaTheme.json",
+          "path": "OlaTheme.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "bg_overall.png",
+          "path": "bg_overall.png",
+          "type": "Image"
+        },
+        {
+          "name": "bg_vehicle.png",
+          "path": "bg_vehicle.png",
+          "type": "Image"
+        },
+        {
+          "name": "bg_revenue.png",
+          "path": "bg_revenue.png",
+          "type": "Image"
+        },
+        {
+          "name": "bg_cancel.png",
+          "path": "bg_cancel.png",
+          "type": "Image"
+        },
+        {
+          "name": "bg_ratings.png",
+          "path": "bg_ratings.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}
