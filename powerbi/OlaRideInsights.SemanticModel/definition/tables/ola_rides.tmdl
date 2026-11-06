@@ -319,12 +319,12 @@ table ola_rides
 
 		annotation SummarizationSetBy = Automatic
 
-	column Total Revenue
+	column Revenue
 		dataType: int64
 		formatString: #,0
-		lineageTag: a3ef2c34-6717-53fe-a116-2c35555b4cc1
+		lineageTag: 602619fc-9c66-500c-aafb-a78035027c47
 		summarizeBy: sum
-		sourceColumn: Total Revenue
+		sourceColumn: Revenue
 
 		annotation SummarizationSetBy = Automatic
 
@@ -386,7 +386,7 @@ table ola_rides
 				let
 				    Source = Csv.Document(File.Contents(DataFolder & "ola_rides_clean.csv"), [Delimiter = ",", Columns = 32, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-				    Typed = Table.TransformColumnTypes(Promoted, {{"Booking_ID", type text}, {"Booking_Datetime", type datetime}, {"Booking_Date", type date}, {"Booking_Time", type text}, {"Day", Int64.Type}, {"Day_Name", type text}, {"Weekday_Num", Int64.Type}, {"Is_Weekend", type text}, {"Hour", Int64.Type}, {"Time_Slot", type text}, {"Booking_Status", type text}, {"Ride_Outcome", type text}, {"Is_Success", Int64.Type}, {"Is_Canceled", Int64.Type}, {"Customer_ID", type text}, {"Vehicle_Type", type text}, {"Pickup_Location", type text}, {"Drop_Location", type text}, {"V_TAT", type number}, {"C_TAT", type number}, {"Canceled_Rides_by_Customer", type text}, {"Canceled_Rides_by_Driver", type text}, {"Incomplete_Rides", type text}, {"Incomplete_Rides_Reason", type text}, {"Booking_Value", Int64.Type}, {"Total Revenue", Int64.Type}, {"Payment_Method", type text}, {"Ride_Distance", Int64.Type}, {"Distance_Band", type text}, {"Fare_per_km", type number}, {"Driver_Ratings", type number}, {"Customer_Rating", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Booking_ID", type text}, {"Booking_Datetime", type datetime}, {"Booking_Date", type date}, {"Booking_Time", type text}, {"Day", Int64.Type}, {"Day_Name", type text}, {"Weekday_Num", Int64.Type}, {"Is_Weekend", type text}, {"Hour", Int64.Type}, {"Time_Slot", type text}, {"Booking_Status", type text}, {"Ride_Outcome", type text}, {"Is_Success", Int64.Type}, {"Is_Canceled", Int64.Type}, {"Customer_ID", type text}, {"Vehicle_Type", type text}, {"Pickup_Location", type text}, {"Drop_Location", type text}, {"V_TAT", type number}, {"C_TAT", type number}, {"Canceled_Rides_by_Customer", type text}, {"Canceled_Rides_by_Driver", type text}, {"Incomplete_Rides", type text}, {"Incomplete_Rides_Reason", type text}, {"Booking_Value", Int64.Type}, {"Revenue", Int64.Type}, {"Payment_Method", type text}, {"Ride_Distance", Int64.Type}, {"Distance_Band", type text}, {"Fare_per_km", type number}, {"Driver_Ratings", type number}, {"Customer_Rating", type number}}, "en-US")
 				in
 				    Typed
 

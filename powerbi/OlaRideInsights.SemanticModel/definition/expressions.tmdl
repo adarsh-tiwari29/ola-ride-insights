@@ -1,4 +1,4 @@
-expression DataFolder = "C:\ola-ride-insights\data\processed\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+expression DataFolder = "C:\Users\ssa-h\Downloads\ola-ride-insights\data\processed\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
 	lineageTag: 58c6fe69-b9b1-5c62-9851-c3fb88a3c381
 
 	annotation PBI_ResultType = Text

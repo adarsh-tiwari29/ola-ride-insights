@@ -232,7 +232,7 @@ C:\Users\ssa-h\Downloads\ola-ride-insights\data\processed\
     - *Access a local file / credentials* → **Connect**
 5. Neeche "Loading data" chalega, 1–2 minute. Phir **Home → Refresh** ek baar aur daba de.
 
-Aage kabhi project folder ki jagah badle, to sirf yahi Step 4 dobara karna hai.
+Zip `C:\Users\ssa-h\Downloads\` mein hi extract kiya hai to ye path pehle se bhara milega — bas check karke OK kar de. Aage kabhi project folder ki jagah badle, to sirf yahi Step 4 dobara karna hai.
 
 ### Step 5 — Numbers check kar
 
