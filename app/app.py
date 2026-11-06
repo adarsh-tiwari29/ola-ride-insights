@@ -410,11 +410,29 @@ elif page == "📈 Power BI Report":
             "1. Open `powerbi/OlaRideInsights.pbip` in Power BI Desktop → **Publish** to your workspace.\n"
             "2. In the Power BI service: **File → Embed report → Publish to web (public)** → copy the link.\n"
             "3. Paste it above, or save it permanently in `.streamlit/secrets.toml` as `POWERBI_EMBED_URL = \"...\"`.")
+    embed_url = embed_url.strip()
     if embed_url.startswith("https://app.powerbi.com/"):
-        components.iframe(embed_url, height=760, scrolling=False)
+        if hasattr(st, "iframe"):          # Streamlit >= 1.5x
+            st.iframe(embed_url, height=760)
+        else:                              # older Streamlit
+            components.iframe(embed_url, height=760, scrolling=False)
     else:
-        st.info("No embed URL yet. Publish the report and paste its 'Publish to web' link above. "
-                "Meanwhile, the 📊 Dashboard page shows the same five views.")
+        if embed_url:
+            st.error("That doesn't look like a Power BI link. Use the 'Link you can send in email' "
+                     "(https://app.powerbi.com/view?r=...), not the iframe HTML.")
+        # Plan B: static screenshots of the report pages, if provided
+        shots_dir = ROOT / "assets" / "powerbi_screens"
+        shots = sorted(p for p in shots_dir.glob("*") if p.suffix.lower() in (".png", ".jpg", ".jpeg")) if shots_dir.exists() else []
+        if shots:
+            st.caption("Power BI report pages (screenshots from Power BI Desktop).")
+            names = [re.sub(r"^\d+[_\-\s]*", "", p.stem).replace("_", " ").title() for p in shots]
+            for tab, shot in zip(st.tabs(names), shots):
+                with tab:
+                    st.image(str(shot), width="stretch")
+        else:
+            st.info("No embed URL yet. Publish the report and paste its 'Publish to web' link above, "
+                    "or drop page screenshots (1_overall.png ... 5_ratings.png) into assets/powerbi_screens/. "
+                    "Meanwhile, the 📊 Dashboard page shows the same five views.")
 
 # ------------------------------------------------------------------ Insights
 elif page == "💡 Insights":

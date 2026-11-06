@@ -3,6 +3,8 @@
 End-to-end analysis of **103,024 OLA ride bookings** (Bengaluru, July 2024): data cleaning → EDA → SQL → Power BI dashboard → Streamlit app.
 
 **Domain:** Ride-sharing & mobility analytics  
+📘 **Step-by-step setup guide (Hinglish): [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md)**
+
 **Stack:** Python (pandas, NumPy, Matplotlib, Seaborn), SQL (MySQL / SQLite), Power BI, Streamlit, Plotly
 
 ---
@@ -23,6 +25,8 @@ ola-ride-insights/
 │   └── 02_ola_queries.sql                # 10 brief questions + 10 insight queries
 ├── powerbi/OlaRideInsights.pbip          # Power BI project (5 pages)
 ├── app/app.py                            # Streamlit app
+├── assets/powerbi_screens/               # optional Power BI page screenshots (Plan B)
+├── docs/SETUP_GUIDE.md                   # full setup & run guide
 ├── .streamlit/                           # theme + secrets example
 └── requirements.txt
 ```
@@ -32,7 +36,7 @@ ola-ride-insights/
 ```bash
 pip install -r requirements.txt
 python src/clean.py                 # builds data/processed/* (CSV + ola.db)
-streamlit run app/app.py            # opens http://localhost:8501
+python -m streamlit run app/app.py  # opens http://localhost:8501
 ```
 The notebook runs top-to-bottom with no errors (`Kernel → Restart & Run All`).
 
@@ -97,7 +101,7 @@ Model: `ola_rides` (fact, 21 DAX measures) ↔ `vehicle_types` (dim, image URLs,
 
 - **Dashboard:** the same 5 views with KPIs and Plotly charts, a filtered-data browser and CSV download.
 - **SQL Query Explorer:** pick any query from the `.sql` file, see the SQL, run it live and download the result. A read-only **custom SQL** editor is included too.
-- **Power BI Report:** embedded "Publish to web" report.
+- **Power BI Report:** embedded "Publish to web" report (or page screenshots from `assets/powerbi_screens/` if no link is set).
 - **Insights:** findings and recommendations.
 - **Sidebar filters** (date range, vehicle, status, payment, ID search) apply to the dashboard *and* the SQL queries (through a filtered temp view).
 
