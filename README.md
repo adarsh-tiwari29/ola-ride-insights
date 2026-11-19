@@ -26,7 +26,6 @@
 **[ola-ride-insightss.streamlit.app](https://ola-ride-insightss.streamlit.app/)**
 
 **Domain:** Ride-sharing & Mobility Analytics
-**Step-by-step setup guide (Hinglish):** [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md)
 
 ---
 
@@ -89,7 +88,6 @@ ola-ride-insights/
 ├── powerbi/OlaRideInsights.pbip          # Power BI project (5 pages)
 ├── app/app.py                            # Streamlit app
 ├── assets/powerbi_screens/               # Power BI page screenshots (fallback)
-├── docs/SETUP_GUIDE.md                   # full setup & run guide
 ├── .streamlit/                           # theme + secrets example
 └── requirements.txt
 ```
