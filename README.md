@@ -209,5 +209,5 @@ python -m streamlit run app/app.py
 ---
 
 <p align="center">
-  Made by <b>Aniket</b> · Data Analyst Intern @ Labmentrix
+  Made by <b>Adarsh Tiwari</b> · Data Analyst Intern @ Labmentrix
 </p>
